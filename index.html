@@ -1667,11 +1667,8 @@
 
     /* Type on the stage */
     #hero h1 { color: #FFFFFF; }
-    #hero h1 .text-sky-500 {
-      color: #BAE6FD;
-      background: linear-gradient(100deg, #FFFFFF 0%, #E0F2FE 35%, #BAE6FD 70%, #E0F2FE 100%);
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    }
+    #hero h1 .text-sky-500 { color: #FFFFFF; }
+    #hero .hero-trust { color: #FFFFFF; }
     #hero [data-i18n="hero_desc"] { color: #FFFFFF; }
     #hero .sr-only { color: #FFFFFF; }
     #hero .bg-skybrand-50 { background: rgba(1, 55, 98, 0.32) !important; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28) !important; color: #FFFFFF !important; }
@@ -1921,6 +1918,53 @@
       body div.rounded-2xl[class*="p-3.5"]:hover, body li.rounded-2xl[class*="p-3.5"]:hover, body div.rounded-2xl.p-4[class*="from-sky-500"]:hover { translate: 0 -2px; }
     }
 
+    /* No eyebrow labels above section headings: the heading says it, the nav already names the section */
+    main section .text-xs.font-semibold.text-sky-600:has(+ h2) { display: none !important; }
+
+    /* Living background: soft logo-blue light drifting behind the page like liquid glass.
+       Text sits on it only where the worst stacked tint (--liquid-worst) still passes AA. */
+    :root { --liquid-worst: rgb(161.9, 221.8, 247.7); }
+    html { background-color: #F5F8FB; }
+    html body { background-color: transparent; }
+    .liquid-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .liquid-bg .lq { position: absolute; display: block; border-radius: 50%; will-change: transform; }
+    .liquid-bg .lq-1 { width: 74vmax; height: 52vmax; left: -24vmax; top: -20vmax; background: radial-gradient(closest-side, rgba(51, 190, 242, 0.16), rgba(51, 190, 242, 0)); }
+    .liquid-bg .lq-2 { width: 64vmax; height: 46vmax; right: -26vmax; top: 24vh; background: radial-gradient(closest-side, rgba(14, 165, 233, 0.12), rgba(14, 165, 233, 0)); }
+    .liquid-bg .lq-3 { width: 72vmax; height: 50vmax; left: 16vw; bottom: -28vmax; background: radial-gradient(closest-side, rgba(125, 211, 252, 0.2), rgba(125, 211, 252, 0)); }
+    .liquid-bg .lq-cursor { width: 40vmax; height: 40vmax; left: -20vmax; top: -20vmax; opacity: 0; transition: opacity 900ms ease;
+      background: radial-gradient(closest-side, rgba(51, 190, 242, 0.12), rgba(51, 190, 242, 0)); }
+    html.liquid-live .liquid-bg .lq-cursor { opacity: 1; }
+    @keyframes liquidA { 0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); } 50% { transform: translate3d(16vw, 12vh, 0) rotate(28deg) scale(1.14); } 100% { transform: translate3d(6vw, 30vh, 0) rotate(-12deg) scale(0.92); } }
+    @keyframes liquidB { 0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); } 50% { transform: translate3d(-18vw, 16vh, 0) rotate(-24deg) scale(1.1); } 100% { transform: translate3d(-8vw, -14vh, 0) rotate(16deg) scale(0.95); } }
+    @keyframes liquidC { 0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); } 50% { transform: translate3d(-14vw, -18vh, 0) rotate(20deg) scale(1.12); } 100% { transform: translate3d(12vw, -6vh, 0) rotate(-18deg) scale(0.96); } }
+    @media (prefers-reduced-motion: no-preference) {
+      .liquid-bg .lq-1 { animation: liquidA 26s ease-in-out infinite alternate; }
+      .liquid-bg .lq-2 { animation: liquidB 32s ease-in-out infinite alternate; }
+      .liquid-bg .lq-3 { animation: liquidC 38s ease-in-out infinite alternate; }
+    }
+    @media print { .liquid-bg { display: none; } }
+
+    /* Touch layer: under a mouse every card and button answers the cursor itself:
+       a light that follows it, a rim that lights up near it, a gentle 3D tilt (cards), a magnetic pull (buttons). */
+    .tl-host { isolation: isolate; }
+    .tl-spot {
+      position: absolute; inset: 0; margin: 0 !important; border: 0 !important; padding: 0; border-radius: inherit;
+      pointer-events: none; z-index: -1; opacity: 0; transition: opacity 450ms ease;
+      background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), var(--tl-glow, rgba(51, 190, 242, 0.14)), transparent 65%);
+    }
+    .tl-spot::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+      background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), var(--tl-rim, rgba(14, 165, 233, 0.95)), transparent 70%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    }
+    .tl-on > .tl-spot { opacity: 1; }
+    .tl-dark { --tl-glow: rgba(255, 255, 255, 0.13); --tl-rim: rgba(255, 255, 255, 0.85); }
+    .tl-tilt { transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1), translate 600ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms ease, color 260ms ease; }
+    .tl-mag { transition: translate 380ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms ease, color 260ms ease; }
+    .tl-press > .tl-spot { animation: tlPress 650ms cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes tlPress { 0% { filter: brightness(1.9) saturate(1.3); } 100% { filter: none; } }
+
     /* Keyboard focus: always visible, overrides Tailwind focus:outline-none */
     a:focus-visible,
     button:focus-visible,
@@ -1965,6 +2009,7 @@
   </noscript>
 </head>
 <body class="selection:bg-sky-100 selection:text-sky-900">
+  <div class="liquid-bg" aria-hidden="true"><i class="lq lq-1"></i><i class="lq lq-2"></i><i class="lq lq-3"></i><i class="lq lq-cursor"></i></div>
 
   <!-- Top Liquid Scroll Progress Line -->
   <div id="scrollProgressLine"></div>
@@ -2075,11 +2120,6 @@
 
         <!-- Left 6 Cols: Editorial Title, Mission & Capsule CTA -->
         <div class="lg:col-span-6 space-y-7">
-          <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-2xl sm:rounded-full bg-skybrand-50 text-xs font-medium text-sky-700 leading-snug" style="box-shadow: inset 0 0 0 1px rgba(14,165,233,0.16);">
-            <span class="w-2 h-2 rounded-full bg-sky-500 flex-shrink-0"></span>
-            <span data-i18n="hero_badge">Исполнитель: ОБО «Пешрафт» · При поддержке Хукумата и Отдела образования г. Куляб</span>
-          </div>
-
           <div class="space-y-3">
             <h1 class="font-display font-bold text-slate-900">
               Фурӯғи <span class="text-sky-500">илму дониш</span>
@@ -2107,6 +2147,8 @@
             </button>
             <a href="#support" class="hidden" data-i18n="hero_cta_budget">Смета 775 294,82 с.</a>
           </div>
+
+          <p class="hero-trust text-[13px] font-medium leading-snug max-w-lg" data-i18n="hero_badge">Исполнитель: ОБО «Пешрафт» · При поддержке Хукумата и Отдела образования г. Куляб</p>
         </div>
 
         <!-- Right 6 Cols: Pure Concentric Photo Frame (ZERO lines or drawings over the photo!) -->
@@ -2271,7 +2313,7 @@
             <!-- Crisis Chain -->
             <div class="bg-white rounded-[24px] p-5 space-y-3" style="box-shadow: 0 0 0 1px rgba(15,23,42,0.06);">
               <div class="flex items-center justify-between text-xs font-bold text-slate-500">
-                <span data-i18n="chain_crisis_head">БЕЗ ПОДДЕРЖКИ: ЗАМКНУТЫЙ КРУГ РЕГИОНОВ</span>
+                <span data-i18n="chain_crisis_head">Без поддержки: замкнутый круг регионов</span>
                 <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600" data-i18n="chain_crisis_pill">Отток кадров</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
@@ -2297,7 +2339,7 @@
             <!-- Furugi Ilm Solution Chain -->
             <div class="bg-white rounded-[24px] p-5 space-y-3" style="box-shadow: 0 0 0 1.5px rgba(14,165,233,0.24);">
               <div class="flex items-center justify-between text-xs font-bold text-sky-700">
-                <span data-i18n="chain_sol_head">РЕШЕНИЕ «ФУРӮҒИ ИЛМУ ДОНИШ»</span>
+                <span data-i18n="chain_sol_head">Решение «Фурӯғи илму дониш»</span>
                 <span class="px-2.5 py-0.5 rounded-full bg-skybrand-50 text-sky-700" data-i18n="chain_sol_pill">1 учитель = 100+ детей</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
@@ -2324,7 +2366,7 @@
 
         <!-- Partner Strip -->
         <div class="pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <span class="text-xs text-slate-400" data-i18n="partners_label">
+          <span class="text-xs text-slate-600" data-i18n="partners_label">
             Партнёры программы «Фурӯғи илму дониш»:
           </span>
           <div class="flex flex-wrap items-center gap-x-8 gap-y-2 text-xs sm:text-sm font-semibold text-slate-600">
@@ -2349,7 +2391,7 @@
           <p class="text-sm text-slate-600 leading-relaxed">Капитальный ремонт 5 школьных кабинетов математики, полное оснащение современной школьной мебелью, ноутбуками и принтерами.</p>
         </div>
         <div class="surface-sky-solid p-7 space-y-3">
-          <div class="text-xs font-semibold text-sky-100">От пилота — к стране</div>
+          <div class="text-xs font-semibold text-sky-100">От пилота к стране</div>
           <h3 class="font-display font-bold text-xl text-white">16 учителей · 16 классов · 3 года</h3>
           <p class="text-sm text-sky-50 leading-relaxed">Стартовав в Кулябском регионе (включая отдалённый район Ховалинг), проект масштабируется на регионы Таджикистана с ежегодным трекингом KPI.</p>
         </div>
@@ -2385,7 +2427,7 @@
             </div>
             <div class="bg-white rounded-2xl p-4 space-y-1" style="box-shadow: 0 0 0 1px rgba(14,165,233,0.10);">
               <div class="font-bold text-slate-900" data-i18n="pil_2_t">2. Без иностранных грантов</div>
-              <p class="text-slate-500 leading-relaxed" data-i18n="pil_2_d">Финансирование строится на вкладе местных меценатов и соотечественников — полная независимость и доверие общества.</p>
+              <p class="text-slate-500 leading-relaxed" data-i18n="pil_2_d">Финансирование строится на вкладе местных меценатов и соотечественников, поэтому проект независим и пользуется доверием общества.</p>
             </div>
             <div class="bg-white rounded-2xl p-4 space-y-1" style="box-shadow: 0 0 0 1px rgba(14,165,233,0.10);">
               <div class="font-bold text-slate-900" data-i18n="pil_3_t">3. Прозрачный учёт и аудит</div>
@@ -2684,7 +2726,7 @@
             <span class="px-3 py-1 rounded-full bg-white text-sky-700 text-xs font-semibold">Часть проекта «Фурӯғи илм» · Студенты 3–4 курсов</span>
             <h3 class="font-display font-bold text-2xl text-slate-900">Подпроект «Будущие учителя для регионов»</h3>
             <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Мы начинаем развивать сильных педагогов ещё во время обучения в университете — чтобы после выпуска они вернулись работать учителями в свои родные районы.
+              Мы начинаем развивать сильных педагогов ещё во время обучения в университете, чтобы после выпуска они вернулись работать учителями в свои родные районы.
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-1 text-xs">
               <div class="bg-white rounded-2xl p-3.5"><strong class="block text-sky-600 mb-0.5">1. Отбор</strong>Лучшие студенты 3–4 курсов педвузов Душанбе родом из регионов</div>
@@ -2901,7 +2943,7 @@
           <div class="text-xs font-semibold text-sky-600" data-i18n="sec7_tag">Дастаи мо · Команда проекта</div>
           <h2 class="font-display font-bold text-slate-900" data-i18n="sec7_title">Постоянная команда проекта «Фурӯғи илм»</h2>
         </div>
-        <p class="text-xs sm:text-sm text-slate-500 max-w-md" data-i18n="sec7_subtitle">Директор «Пешрафт» лично курирует проект на всех этапах — от отбора учителей до сдачи отремонтированных классов.</p>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-md" data-i18n="sec7_subtitle">Директор «Пешрафт» лично курирует проект на всех этапах: от отбора учителей до сдачи отремонтированных классов.</p>
       </div>
 
       <div class="mobile-snap-carousel grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -2974,8 +3016,8 @@
           <div class="lg:col-span-7 space-y-5">
             <div>
               <div class="text-xs font-semibold text-sky-600">Целевое пожертвование на проект «Фурӯғи илму дониш»</div>
-              <h2 class="font-display font-bold text-slate-900 mt-1">Спонсируйте учителя — измените целый регион</h2>
-              <p class="text-xs sm:text-sm text-slate-500 mt-1">Профинансируйте пакет поддержки одного педагога на учебный год — и дайте десяткам детей доступ к качественному образованию.</p>
+              <h2 class="font-display font-bold text-slate-900 mt-1">Спонсируйте учителя и измените целый регион</h2>
+              <p class="text-xs sm:text-sm text-slate-500 mt-1">Профинансируйте пакет поддержки одного педагога на учебный год и дайте десяткам детей доступ к качественному образованию.</p>
             </div>
 
             <div class="mobile-snap-carousel grid grid-cols-2 sm:grid-cols-3 gap-2.5 tabular-nums" id="donateTierGrid">
@@ -3101,7 +3143,7 @@
             <div class="eyebrow-drop text-xs font-semibold text-sky-600">Формаи муроҷиат · Прямая связь с координаторами</div>
             <h3 class="font-display font-bold text-lg sm:text-xl text-slate-900">Участвуйте в программе или задайте вопрос руководителю проекта</h3>
             <p class="text-xs sm:text-sm text-slate-500 leading-relaxed">
-              Выберите нужное окно обращения — панель откроется плавно поверх страницы без перезагрузки: подайте анкету учителя на конкурсный отбор, оформите заявку от школы на ремонт техники или напишите руководителю проекта Парвине Хамралиевой.
+              Подайте анкету учителя на конкурсный отбор, оформите заявку от школы на ремонт техники или напишите руководителю проекта Парвине Хамралиевой.
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-3 pt-1">
@@ -3880,7 +3922,7 @@
         chain_tag: 'Системный разрыв замкнутого круга · Слайд 10',
         chain_title: 'Как «Фурӯғи илм» превращает отток педагогов в рост региональных школ',
         chain_badge: '4 звена трансформации',
-        chain_crisis_head: 'БЕЗ ПОДДЕРЖКИ: ЗАМКНУТЫЙ КРУГ РЕГИОНОВ',
+        chain_crisis_head: 'Без поддержки: замкнутый круг регионов',
         chain_crisis_pill: 'Отток кадров',
         cr_step1_t: '1. Зарплата 1 200–1 500 с.',
         cr_step1_d: 'Самая низкая в ЦА (Asia-Plus, 2024) и 0 вузов РТ в рейтингах QS / THE.',
@@ -3890,7 +3932,7 @@
         cr_step3_d: '36% выпускников педвузов не идут в школу, сильные педагоги меняют профессию.',
         cr_step4_t: '4. По 35–40 детей в классе',
         cr_step4_d: 'Нехватка 180 тыс. учебных мест (норма — 25 учеников), падение качества знаний.',
-        chain_sol_head: 'РЕШЕНИЕ «ФУРӮҒИ ИЛМУ ДОНИШ»',
+        chain_sol_head: 'Решение «Фурӯғи илму дониш»',
         chain_sol_pill: '1 учитель = 100+ детей',
         sol_step1_t: '1. Строгий 4-этапный отбор',
         sol_step1_d: 'Экзамен по математике, психотест и интервью выявляют лучших педагогов до 45–55 лет.',
@@ -3912,7 +3954,7 @@
         eco_2_tag: 'Обновление учебной среды',
         eco_2_title: '5 кабинетов математики',
         eco_2_desc: 'Капитальный ремонт 5 школьных кабинетов математики, полное оснащение современной школьной мебелью, ноутбуками и принтерами.',
-        eco_3_tag: 'От пилота — к стране',
+        eco_3_tag: 'От пилота к стране',
         eco_3_title: '16 учителей · 16 классов · 3 года',
         eco_3_desc: 'Стартовав в Кулябском регионе (включая отдалённый район Ховалинг), проект масштабируется на регионы Таджикистана с ежегодным трекингом KPI.',
         trust_tag_1: 'Результат 1 · Педагоги',
@@ -3928,7 +3970,7 @@
         pil_1_t: '1. Лицензия Минюста с 2011 года',
         pil_1_d: 'ОБО «Пешрафт» официально работает более 15 лет (также зарегистрирована в UK Charity Commission № 1145279).',
         pil_2_t: '2. Без иностранных грантов',
-        pil_2_d: 'Финансирование строится на вкладе местных меценатов и соотечественников — полная независимость и доверие общества.',
+        pil_2_d: 'Финансирование строится на вкладе местных меценатов и соотечественников, поэтому проект независим и пользуется доверием общества.',
         pil_3_t: '3. Прозрачный учёт и аудит',
         pil_3_d: 'Каждая из 9 статей сметы (775 294,82 с.) проходит бухгалтерский контроль Азизы Хотамовой с отчётом перед донором.',
         pil_4_t: '4. Наставники из лучших школ Душанбе',
@@ -4008,7 +4050,7 @@
         crit_apply_btn: 'Подать анкету',
         fut_badge: 'Часть проекта «Фурӯғи илм» · Студенты 3–4 курсов',
         fut_title: 'Подпроект «Будущие учителя для регионов»',
-        fut_desc: 'Мы начинаем развивать сильных педагогов ещё во время обучения в университете — чтобы после выпуска они вернулись работать учителями в свои родные районы.',
+        fut_desc: 'Мы начинаем развивать сильных педагогов ещё во время обучения в университете, чтобы после выпуска они вернулись работать учителями в свои родные районы.',
         fut_step_1_html: '<strong class="block text-sky-600 mb-0.5">1. Отбор</strong>Лучшие студенты 3–4 курсов педвузов Душанбе родом из регионов',
         fut_step_2_html: '<strong class="block text-sky-600 mb-0.5">2. Подготовка</strong>Стипендия + углублённые курсы математики, физики и педагогики',
         fut_step_3_html: '<strong class="block text-sky-600 mb-0.5">3. Обязательство</strong>Возвращение работать учителем в школу своего региона',
@@ -4072,7 +4114,7 @@
 
         sec7_tag: 'Дастаи мо · Команда проекта',
         sec7_title: 'Постоянная команда проекта «Фурӯғи илм»',
-        sec7_subtitle: 'Директор «Пешрафт» лично курирует проект на всех этапах — от отбора учителей до сдачи отремонтированных классов.',
+        sec7_subtitle: 'Директор «Пешрафт» лично курирует проект на всех этапах: от отбора учителей до сдачи отремонтированных классов.',
         team_1_name: 'Парвина Хамралиева',
         team_1_role: 'Руководитель проекта',
         team_1_desc: 'Отвечает за стратегию, отбор учителей и итоги года.',
@@ -4092,8 +4134,8 @@
         faq_tab_sponsors: 'Спонсорам и донорам',
 
         don_tag: 'Целевое пожертвование на проект «Фурӯғи илму дониш»',
-        don_title: 'Спонсируйте учителя — измените целый регион',
-        don_subtitle: 'Профинансируйте пакет поддержки одного педагога на учебный год — и дайте десяткам детей доступ к качественному образованию.',
+        don_title: 'Спонсируйте учителя и измените целый регион',
+        don_subtitle: 'Профинансируйте пакет поддержки одного педагога на учебный год и дайте десяткам детей доступ к качественному образованию.',
         tier_1_lbl: '1-й год + ремонт',
         tier_1_desc: 'Полный пакет «Спонсируй учителя» (1-й год: ремонт класса 60 000 с. + ноутбук и принтер 8 250 с.)',
         tier_2_lbl: '2-й+ год учителя',
@@ -4130,7 +4172,7 @@
         cnt_org: 'ОБО «Пешрафт»',
         cnt_form_tag: 'Формаи муроҷиат · Прямая связь с координаторами',
         cnt_form_title: 'Участвуйте в программе или задайте вопрос руководителю проекта',
-        cnt_form_desc: 'Выберите нужное окно обращения — панель откроется плавно поверх страницы без перезагрузки: подайте анкету учителя на конкурсный отбор, оформите заявку от школы на ремонт техники или напишите руководителю проекта Парвине Хамралиевой.',
+        cnt_form_desc: 'Подайте анкету учителя на конкурсный отбор, оформите заявку от школы на ремонт техники или напишите руководителю проекта Парвине Хамралиевой.',
         cnt_btn_dir: 'Написать руководителю проекта →',
         cnt_btn_teacher: 'Подать анкету учителя',
         cnt_btn_repair: 'Заявка школы на ремонт',
@@ -4271,7 +4313,7 @@
         chain_tag: 'Шикастани ҳалқаи сарбаста · Слайди 10',
         chain_title: 'Чӣ гуна «Фурӯғи илм» раванди тарки омӯзгоронро ба рушди мактабҳои минтақа табдил медиҳад',
         chain_badge: '4 марҳилаи дигаргунсозӣ',
-        chain_crisis_head: 'БЕ ДАСТГИРӢ: ҲАЛҚАИ САРБАСТАИ МИНТАҚАҲО',
+        chain_crisis_head: 'Бе дастгирӣ: ҳалқаи сарбастаи минтақаҳо',
         chain_crisis_pill: 'Тарки касб',
         cr_step1_t: '1. Маош: 1 200–1 500 с.',
         cr_step1_d: 'Пасттарин дар ОМ (Asia-Plus, 2024) ва 0 донишгоҳи ҶТ дар раддабандии QS / THE.',
@@ -4281,7 +4323,7 @@
         cr_step3_d: '36% хатмкунандагони риштаи омӯзгорӣ ба мактаб намераванд ва касбро иваз мекунанд.',
         cr_step4_t: '4. 35–40 хонанда дар як синф',
         cr_step4_d: 'Норасоии 180 ҳазор ҷойи нишаст (меъёр — 25 хонанда) ва коҳиши сифати дониш.',
-        chain_sol_head: 'РОҲИ ҲАЛЛИ «ФУРӮҒИ ИЛМУ ДОНИШ»',
+        chain_sol_head: 'Роҳи ҳалли «Фурӯғи илму дониш»',
         chain_sol_pill: '1 омӯзгор = 100+ хонанда',
         sol_step1_t: '1. Интихоби қатъии 4-марҳилаӣ',
         sol_step1_d: 'Имтиҳони математика, психотест ва мусоҳиба беҳтарин омӯзгорони то 45–55 соларо муайян мекунанд.',
@@ -4463,7 +4505,7 @@
 
         sec7_tag: 'Дастаи мо · Гурӯҳи идоракунии лоиҳа',
         sec7_title: 'Дастаи доимии лоиҳаи «Фурӯғи илм»',
-        sec7_subtitle: 'Директори «Пешрафт» лоиҳаро дар ҳамаи марҳилаҳо — аз интихоби омӯзгорон то супоридани синфхонаҳои таъмиршуда шахсан назорат мекунад.',
+        sec7_subtitle: 'Директори «Пешрафт» лоиҳаро дар ҳамаи марҳилаҳо: аз интихоби омӯзгорон то супоридани синфхонаҳои таъмиршуда шахсан назорат мекунад.',
         team_1_name: 'Парвина Ҳамралиева',
         team_1_role: 'Роҳбари лоиҳа',
         team_1_desc: 'Барои стратегия, интихоби омӯзгорон ва ҷамъбасти натиҷаҳои сол масъул аст.',
@@ -4483,7 +4525,7 @@
         faq_tab_sponsors: 'Ба сарпарастон ва донорҳо',
 
         don_tag: 'Хайрияи мақсаднок барои лоиҳаи «Фурӯғи илму дониш»',
-        don_title: 'Омӯзгорро сарпарастӣ кунед — як минтақаро рушд диҳед',
+        don_title: 'Омӯзгорро сарпарастӣ кунед ва як минтақаро рушд диҳед',
         don_subtitle: 'Бастаи дастгирии як омӯзгорро барои соли таҳсил маблағгузорӣ намоед ва ба даҳҳо хонанда дастрасӣ ба таҳсилоти босифатро фароҳам оред.',
         tier_1_lbl: 'Соли 1-ум + таъмир',
         tier_1_desc: 'Бастаи пурраи «Сарпарастии омӯзгор» (соли 1-ум: таъмири синфхона 60 000 с. + ноутбук ва принтер 8 250 с.)',
@@ -4521,7 +4563,7 @@
         cnt_org: 'ТҶЭ «Пешрафт»',
         cnt_form_tag: 'Формаи муроҷиат · Алоқаи мустақим бо ҳамоҳангсозон',
         cnt_form_title: 'Дар барнома иштирок кунед ё ба роҳбари лоиҳа савол диҳед',
-        cnt_form_desc: 'Равзанаи муроҷиати лозимиро интихоб кунед — лавҳа бе боркунии саҳифа кушода мешавад: пурсишномаи омӯзгорро ба озмун супоред, аз номи мактаб барои таъмири техника дархост фиристед ё ба роҳбари лоиҳа Парвина Ҳамралиева нависед.',
+        cnt_form_desc: 'Пурсишномаи омӯзгорро ба озмун супоред, аз номи мактаб барои таъмири техника дархост фиристед ё ба роҳбари лоиҳа Парвина Ҳамралиева нависед.',
         cnt_btn_dir: 'Навиштан ба роҳбари лоиҳа →',
         cnt_btn_teacher: 'Супоридани пурсишномаи омӯзгор',
         cnt_btn_repair: 'Дархости мактаб барои таъмир',
@@ -4965,7 +5007,7 @@
         {
           cat: 'sponsors',
           q: '3. Из чего складываются суммы 68 250 сомони (1-й год) и 27 000 сомони (2-й+ год)?',
-          a: 'В первый год разово оплачиваются капитальный ремонт кабинета математики (60 000 с.) и комплект оборудования — ноутбук и лазерный принтер (8 250 с.). Начиная со второго года кабинет уже готов, поэтому финансируются только именная стипендия учителя (20 000 с. = 2 000 с. × 10 учебных месяцев) и методическое сопровождение с тренингами (7 000 с.).'
+          a: 'В первый год разово оплачиваются капитальный ремонт кабинета математики (60 000 с.) и комплект оборудования: ноутбук и лазерный принтер (8 250 с.). Начиная со второго года кабинет уже готов, поэтому финансируются только именная стипендия учителя (20 000 с. = 2 000 с. × 10 учебных месяцев) и методическое сопровождение с тренингами (7 000 с.).'
         },
         {
           cat: 'sponsors',
@@ -4997,7 +5039,7 @@
         {
           cat: 'sponsors',
           q: '3. Маблағҳои 68 250 сомонӣ (соли 1-ум) ва 27 000 сомонӣ (соли 2-юм+) аз чӣ иборатанд?',
-          a: 'Дар соли аввал якдафъаина таъмири капиталии синфхонаи математика (60 000 с.) ва маҷмӯи таҷҳизот — ноутбук ва принтери лазерӣ (8 250 с.) маблағгузорӣ мешаванд. Аз соли дуюм сар карда, танҳо идрорпулии солонаи омӯзгор (20 000 с. = 2 000 с. × 10 моҳи таҳсил) ва роҳнамоии методӣ бо тренингҳо (7 000 с.) пардохт мегарданд.'
+          a: 'Дар соли аввал якдафъаина таъмири капиталии синфхонаи математика (60 000 с.) ва маҷмӯи таҷҳизот: ноутбук ва принтери лазерӣ (8 250 с.) маблағгузорӣ мешаванд. Аз соли дуюм сар карда, танҳо идрорпулии солонаи омӯзгор (20 000 с. = 2 000 с. × 10 моҳи таҳсил) ва роҳнамоии методӣ бо тренингҳо (7 000 с.) пардохт мегарданд.'
         },
         {
           cat: 'sponsors',
@@ -6412,6 +6454,129 @@
         if (!b) return;
         b.classList.remove('tier-pop'); void b.offsetWidth; b.classList.add('tier-pop');
         b.addEventListener('animationend', () => b.classList.remove('tier-pop'), { once: true });
+      });
+    })();
+  </script>
+  <script>
+    /* Touch layer: the page answers a mouse. Off for touch screens and for reduced motion. */
+    (() => {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const root = document.documentElement;
+      const CARD = '.surface-ice, .surface-liquid, .surface-sky-solid, [class*="rounded-[2"], .rounded-2xl, .rounded-3xl, .photo-frame, #galleryGrid > *, ' +
+        'button.rounded-full, a.rounded-full, button.rounded-xl, a.rounded-xl, .btn-primary-pill, .btn-ghost-pill, .donate-tier-btn';
+      const SKIP = '#hero.scroll-choreo, #donate > .surface-ice, #about .surface-ice:has([data-i18n="chain_title"]), input, textarea, select, .dynamic-island-capsule';
+      const prep = new WeakMap();
+      const active = new Set();
+      const lightText = c => { const m = c.match(/\d+(\.\d+)?/g); if (!m) return false; const [r, g, b] = m.map(Number); return 0.2126 * r + 0.7152 * g + 0.0722 * b > 170; };
+      const spot = () => { const s = document.createElement('span'); s.className = 'tl-spot'; s.setAttribute('aria-hidden', 'true'); return s; };
+
+      function prepare(el) {
+        if (prep.has(el)) return prep.get(el);
+        let info = null;
+        const r = el.getBoundingClientRect();
+        if (r.width < 40 || r.height < 24) return null; /* not laid out yet: ask again next time */
+        if (r.width >= 40 && r.height >= 24 && !el.matches(SKIP) && !el.closest('[role="dialog"], #mobileMenuDrawer, .lightbox')) {
+          const cs = getComputedStyle(el);
+          const kids = [...el.querySelectorAll('*')].slice(0, 600);
+          const pos = kids.map(d => [d, getComputedStyle(d).position]);
+          /* a fixed or sticky child would come loose under a 3D tilt */
+          const pinned = pos.some(([, p]) => p === 'fixed' || p === 'sticky');
+          let ok = cs.position !== 'static';
+          if (!ok) {
+            /* making el relative must not re-anchor an absolute child that hangs on something further out */
+            ok = !pos.some(([d, p]) => p === 'absolute' && !(d.offsetParent && el.contains(d.offsetParent)));
+            if (ok) el.style.position = 'relative';
+          }
+          if (ok) {
+            const isBtn = el.matches('button, a');
+            info = {
+              tilt: !isBtn && !pinned && r.width >= 140 && r.width <= 640 && r.height <= 560 && cs.transform === 'none',
+              mag: isBtn && r.width >= 80 && r.height <= 72
+            };
+            el.classList.add('tl-host');
+            if (lightText(cs.color)) el.classList.add('tl-dark');
+            if (info.tilt) el.classList.add('tl-tilt');
+            if (info.mag) el.classList.add('tl-mag');
+            el.appendChild(spot());
+          }
+        }
+        prep.set(el, info);
+        return info;
+      }
+
+      function release(el) {
+        el.classList.remove('tl-on');
+        const info = prep.get(el);
+        if (info && info.tilt) el.style.transform = '';
+        if (info && info.mag) el.style.translate = '';
+        active.delete(el);
+      }
+
+      /* background blob eases after the cursor */
+      const blob = document.querySelector('.liquid-bg .lq-cursor');
+      let tx = innerWidth / 2, ty = innerHeight / 3, bx = tx, by = ty, braf = 0;
+      const drift = () => {
+        bx += (tx - bx) * 0.07; by += (ty - by) * 0.07;
+        if (blob) blob.style.transform = `translate3d(${bx.toFixed(1)}px, ${by.toFixed(1)}px, 0)`;
+        braf = Math.abs(tx - bx) + Math.abs(ty - by) > 0.5 ? requestAnimationFrame(drift) : 0;
+      };
+
+      let last = null, queued = false, settleUntil = 0;
+      function frame() {
+        queued = false;
+        if (!last) return;
+        /* after a scroll, cards keep sliding into place under a still cursor: keep looking until they settle */
+        if (performance.now() < settleUntil) queue();
+        const x0 = last.x, y0 = last.y;
+        const hit = document.elementFromPoint(x0, y0);
+        const chain = [];
+        let n = hit && hit.closest ? hit.closest(CARD) : null;
+        while (n && chain.length < 3) {
+          const info = prepare(n);
+          if (info) chain.push([n, info]);
+          n = n.parentElement ? n.parentElement.closest(CARD) : null;
+        }
+        const now = new Set(chain.map(c => c[0]));
+        [...active].forEach(el => { if (!now.has(el)) release(el); });
+        let tilted = false;
+        for (const [el, info] of chain) {
+          if (!el.querySelector(':scope > .tl-spot')) el.appendChild(spot());
+          const r = el.getBoundingClientRect();
+          const x = x0 - r.left, y = y0 - r.top;
+          el.style.setProperty('--mx', x.toFixed(0) + 'px');
+          el.style.setProperty('--my', y.toFixed(0) + 'px');
+          el.classList.add('tl-on');
+          active.add(el);
+          if (info.tilt && !tilted) {
+            tilted = true;
+            const px = x / r.width - 0.5, py = y / r.height - 0.5;
+            el.style.transform = `perspective(1100px) rotateX(${(-py * 4).toFixed(2)}deg) rotateY(${(px * 5).toFixed(2)}deg)`;
+          }
+          if (info.mag) {
+            const dx = Math.max(-6, Math.min(6, (x - r.width / 2) * 0.16));
+            const dy = Math.max(-4, Math.min(4, (y - r.height / 2) * 0.28));
+            el.style.translate = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
+          }
+        }
+      }
+      const queue = () => { if (!queued) { queued = true; requestAnimationFrame(frame); } };
+
+      document.addEventListener('pointermove', e => {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        last = { x: e.clientX, y: e.clientY };
+        tx = e.clientX; ty = e.clientY;
+        root.classList.add('liquid-live');
+        if (!braf) braf = requestAnimationFrame(drift);
+        queue();
+      }, { passive: true });
+      addEventListener('scroll', () => { if (last) { settleUntil = performance.now() + 1400; queue(); } }, { passive: true });
+      root.addEventListener('mouseleave', () => { last = null; [...active].forEach(release); root.classList.remove('liquid-live'); });
+      document.addEventListener('pointerdown', e => {
+        const el = e.target.closest && e.target.closest('.tl-host');
+        if (!el) return;
+        el.classList.remove('tl-press'); void el.offsetWidth; el.classList.add('tl-press');
+        setTimeout(() => el.classList.remove('tl-press'), 700);
       });
     })();
   </script>
