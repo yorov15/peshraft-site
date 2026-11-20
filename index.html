@@ -1965,6 +1965,14 @@
     .tl-press > .tl-spot { animation: tlPress 650ms cubic-bezier(0.16, 1, 0.3, 1); }
     @keyframes tlPress { 0% { filter: brightness(1.9) saturate(1.3); } 100% { filter: none; } }
 
+    /* Smooth wheel scrolling (Lenis, mouse only). Native smooth scroll must be off while Lenis drives the page. */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-smooth iframe { pointer-events: none; }
+    .consent-row input { cursor: pointer; }
+
     /* Keyboard focus: always visible, overrides Tailwind focus:outline-none */
     a:focus-visible,
     button:focus-visible,
@@ -3328,7 +3336,12 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-primary-pill w-full py-3.5 text-xs sm:text-sm font-semibold mt-4">
+      <label for="modTeacherConsent" class="consent-row flex items-start gap-2.5 mt-4 text-xs text-slate-600 leading-snug cursor-pointer">
+        <input type="checkbox" id="modTeacherConsent" name="consent" required class="consent-check mt-0.5 w-4 h-4 flex-shrink-0 accent-sky-600" />
+        <span data-i18n="consent_label">Я даю согласие ОБО «Пешрафт» на обработку моих данных, чтобы со мной связались по этому обращению.</span>
+      </label>
+
+      <button type="submit" class="btn-primary-pill w-full py-3.5 text-xs sm:text-sm font-semibold">
         <span>Зарегистрировать анкету на 1-й этап</span>
       </button>
     </form>
@@ -3382,7 +3395,12 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-primary-pill w-full py-3.5 text-xs sm:text-sm font-semibold mt-4">
+      <label for="repConsent" class="consent-row flex items-start gap-2.5 mt-4 text-xs text-slate-600 leading-snug cursor-pointer">
+        <input type="checkbox" id="repConsent" name="consent" required class="consent-check mt-0.5 w-4 h-4 flex-shrink-0 accent-sky-600" />
+        <span data-i18n="consent_label">Я даю согласие ОБО «Пешрафт» на обработку моих данных, чтобы со мной связались по этому обращению.</span>
+      </label>
+
+      <button type="submit" class="btn-primary-pill w-full py-3.5 text-xs sm:text-sm font-semibold">
         <span>Отправить заявку менеджеру по ремонтам</span>
       </button>
     </form>
@@ -3434,7 +3452,12 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-primary-pill w-full py-3.5 text-xs sm:text-sm font-semibold mt-4">
+      <label for="cntConsent" class="consent-row flex items-start gap-2.5 mt-4 text-xs text-slate-600 leading-snug cursor-pointer">
+        <input type="checkbox" id="cntConsent" name="consent" required class="consent-check mt-0.5 w-4 h-4 flex-shrink-0 accent-sky-600" />
+        <span data-i18n="consent_label">Я даю согласие ОБО «Пешрафт» на обработку моих данных, чтобы со мной связались по этому обращению.</span>
+      </label>
+
+      <button type="submit" class="btn-primary-pill w-full py-3.5 text-xs sm:text-sm font-semibold">
         <span>Отправить обращение в «Пешрафт»</span>
       </button>
     </form>
@@ -4240,6 +4263,7 @@
         drw3_lbl_msg: 'Сообщение или вопрос *',
         drw3_ph_msg: 'Напишите ваш вопрос по конкурсу, спонсорству или партнёрству...',
         drw3_submit: 'Отправить обращение в «Пешрафт»',
+        consent_label: 'Я даю согласие ОБО «Пешрафт» на обработку моих данных, чтобы со мной связались по этому обращению.',
 
         cert_badge: 'Перевод на счёт программы · Фурӯғи илму дониш',
         cert_thanks: 'Ваш перевод:',
@@ -4631,6 +4655,7 @@
         drw3_lbl_msg: 'Паём ё савол *',
         drw3_ph_msg: 'Саволи худро оид ба озмун, сарпарастӣ ё ҳамкорӣ нависед...',
         drw3_submit: 'Фиристодани муроҷиат ба «Пешрафт»',
+        consent_label: 'Ман ба ТҶЭ «Пешрафт» розигӣ медиҳам, ки маълумоти маро барои тамос бо ман оид ба ин муроҷиат коркард намояд.',
 
         cert_badge: 'Интиқол ба суратҳисоби барнома · Фурӯғи илму дониш',
         cert_thanks: 'Интиқоли шумо:',
@@ -6579,6 +6604,38 @@
         setTimeout(() => el.classList.remove('tl-press'), 700);
       });
     })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous" defer></script>
+  <script>
+    /* Smooth wheel scrolling: the page glides after the mouse wheel instead of jumping in steps.
+       Mouse only, never with reduced motion; drawers and modals keep their own native scrolling. */
+    addEventListener('load', () => {
+      if (!window.Lenis) return; /* CDN unreachable: the page simply scrolls natively */
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const lenis = new Lenis({
+        lerp: 0.1,
+        smoothWheel: true,
+        prevent: node => !!(node.closest && node.closest('.glass-drawer-panel, .editorial-modal, #mobileMenuDrawer, [data-lenis-prevent], [role="dialog"]'))
+      });
+      window.__lenis = lenis;
+      const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+
+      /* in-page links glide too (mouse clicks); a keyboard Enter keeps the native jump so focus follows the link */
+      document.addEventListener('click', e => {
+        if (e.defaultPrevented || e.button !== 0 || e.detail === 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        const a = e.target.closest && e.target.closest('a[href^="#"]');
+        if (!a) return;
+        const id = a.getAttribute('href').slice(1);
+        const el = id && document.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+        lenis.scrollTo(el, { offset: -margin, duration: 1.1, easing: t => 1 - Math.pow(1 - t, 4) });
+        if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+      });
+    });
   </script>
 </body>
 </html>
