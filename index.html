@@ -1531,7 +1531,7 @@
     }
     .surface-ice .surface-ice { background: var(--surface); }
     .surface-sky-solid {
-      background: linear-gradient(160deg, #0A6AA6 0%, #075985 58%, #0B4A72 100%);
+      background: linear-gradient(160deg, #0277BD 0%, #0270B3 58%, #03669F 100%);
       box-shadow: 0 1px 2px rgba(7, 89, 133, 0.2), 0 18px 40px -20px rgba(7, 89, 133, 0.55);
       transform: none;
     }
@@ -1542,7 +1542,7 @@
 
     /* Buttons */
     .btn-primary-pill {
-      background: linear-gradient(180deg, #0A6AA6 0%, #075985 100%);
+      background: linear-gradient(180deg, #0277BD 0%, #036CAE 100%);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 1px 2px rgba(7, 89, 133, 0.25), 0 12px 24px -14px rgba(7, 89, 133, 0.7);
     }
     .btn-ghost-pill {
@@ -1643,17 +1643,17 @@
 
     /* ===== WOW 1: the hero is a dark stage (navy, sky glow, dot grid), wider than the content column ===== */
     #hero.scroll-choreo {
-      --stage: #0A6AA6;
+      --stage: #0277BD;
       position: relative; isolation: isolate; overflow: hidden;
       background-color: var(--stage);
       background-image:
-        radial-gradient(50% 60% at 92% 8%, rgba(186, 230, 253, 0.30), transparent 62%),
-        radial-gradient(35% 45% at 78% 45%, rgba(125, 211, 252, 0.18), transparent 65%),
-        linear-gradient(135deg, #0A6AA6 0%, #0A64A0 50%, #09588C 100%);
+        radial-gradient(42% 60% at 100% 0%, rgba(51, 190, 242, 0.95), rgba(51, 190, 242, 0) 72%),
+        radial-gradient(38% 48% at 96% 62%, rgba(14, 165, 233, 0.75), rgba(14, 165, 233, 0) 70%),
+        linear-gradient(135deg, #0277BD 0%, #0274B9 55%, #036CAE 100%);
       border-radius: 32px;
       padding: 32px 20px 20px;
       margin-inline: -8px;
-      box-shadow: 0 50px 100px -40px rgba(10, 106, 166, 0.45);
+      box-shadow: 0 50px 100px -40px rgba(2, 132, 199, 0.42);
     }
     #hero.scroll-choreo::before {
       content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -1672,17 +1672,17 @@
       background: linear-gradient(100deg, #FFFFFF 0%, #E0F2FE 35%, #BAE6FD 70%, #E0F2FE 100%);
       -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-    #hero [data-i18n="hero_desc"] { color: #F0F9FF; }
+    #hero [data-i18n="hero_desc"] { color: #FFFFFF; }
     #hero .sr-only { color: #FFFFFF; }
-    #hero .bg-skybrand-50 { background: rgba(255, 255, 255, 0.12) !important; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28) !important; color: #FFFFFF !important; }
+    #hero .bg-skybrand-50 { background: rgba(1, 55, 98, 0.32) !important; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28) !important; color: #FFFFFF !important; }
     #hero .bg-skybrand-50 .bg-sky-500 { background: #FFFFFF; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25); }
 
     /* Buttons on the stage: white primary, outlined ghost */
     #hero .btn-primary-pill { background: #FFFFFF; color: #0B3A5C; box-shadow: 0 18px 40px -14px rgba(8, 47, 73, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.4); }
     #hero .btn-primary-pill:hover { background: #F0F9FF; }
-    #hero .btn-primary-pill .arrow-badge { background: #0A6AA6; color: #FFFFFF; }
-    #hero .btn-ghost-pill { background: rgba(255, 255, 255, 0.10); color: #FFFFFF; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45); }
-    #hero .btn-ghost-pill:hover { background: rgba(255, 255, 255, 0.18); }
+    #hero .btn-primary-pill .arrow-badge { background: #0284C7; color: #FFFFFF; }
+    #hero .btn-ghost-pill { background: rgba(1, 55, 98, 0.30); color: #FFFFFF; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5); }
+    #hero .btn-ghost-pill:hover { background: rgba(1, 55, 98, 0.45); }
     #hero a:focus-visible, #hero button:focus-visible { outline-color: #FFFFFF !important; }
 
     /* Photo: deep shadow, caption as white chips floating on the photo */
@@ -1706,7 +1706,7 @@
     #hero .mobile-snap-carousel > a.surface-liquid:hover { background: rgba(255, 255, 255, 0.09); transform: none; }
     #hero .mobile-snap-carousel .font-display { color: #FFFFFF; }
     #hero .mobile-snap-carousel .font-display.text-sky-600 { color: #BAE6FD; }
-    #hero .mobile-snap-carousel .text-slate-500 { color: #F0F9FF; }
+    #hero .mobile-snap-carousel .text-slate-500 { color: #FFFFFF; }
     @media (min-width: 1024px) {
       #hero .mobile-snap-carousel {
         background: transparent; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25); border-radius: 0; margin-top: 12px;
@@ -1737,11 +1737,12 @@
     /* ===== WOW 2: donate is the closing dark stage, mirroring the hero ===== */
     #donate > .surface-ice {
       position: relative; isolation: isolate; overflow: hidden;
-      background-color: #0A6AA6;
+      background-color: #0277BD;
       background-image:
-        radial-gradient(50% 60% at 100% 0%, rgba(186, 230, 253, 0.26), transparent 62%),
-        linear-gradient(135deg, #0A6AA6 0%, #0A64A0 50%, #09588C 100%);
-      box-shadow: 0 50px 100px -40px rgba(10, 106, 166, 0.45);
+        radial-gradient(40% 55% at 100% 0%, rgba(51, 190, 242, 0.9), rgba(51, 190, 242, 0) 72%),
+        radial-gradient(45% 50% at 85% 100%, rgba(14, 165, 233, 0.7), rgba(14, 165, 233, 0) 70%),
+        linear-gradient(135deg, #0277BD 0%, #0274B9 55%, #036CAE 100%);
+      box-shadow: 0 50px 100px -40px rgba(2, 132, 199, 0.42);
       border-radius: 36px;
     }
     #donate > .surface-ice::before {
@@ -1750,9 +1751,9 @@
       -webkit-mask-image: linear-gradient(0deg, #000, transparent 70%); mask-image: linear-gradient(0deg, #000, transparent 70%);
     }
     @media (min-width: 1280px) { #donate > .surface-ice { margin-inline: -72px; padding: 64px 72px; } }
-    #donate > .surface-ice > .grid > div:first-child > div:first-child > .text-sky-600 { color: #E0F2FE; }
+    #donate > .surface-ice > .grid > div:first-child > div:first-child > .text-sky-600 { color: #FFFFFF; }
     #donate > .surface-ice > .grid > div:first-child > div:first-child > h2 { color: #FFFFFF; }
-    #donate > .surface-ice > .grid > div:first-child > div:first-child > p { color: #F0F9FF; }
+    #donate > .surface-ice > .grid > div:first-child > div:first-child > p { color: #FFFFFF; }
     #donate .donate-tier-btn { box-shadow: none; }
     #donate .donate-tier-btn:not(.bg-sky-500) { background: rgba(255, 255, 255, 0.96); }
     #donate form#donationPledgeForm, #donate > .surface-ice > .grid > div:last-child { box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55) !important; }
@@ -1761,13 +1762,13 @@
     /* ===== WOW 3: mid-page dark stage for the "vicious circle vs solution" block ===== */
     #about .surface-ice:has([data-i18n="chain_title"]) {
       position: relative; isolation: isolate; overflow: hidden;
-      background-color: #0A6AA6;
-      background-image: radial-gradient(60% 60% at 50% 100%, rgba(186, 230, 253, 0.22), transparent 65%), linear-gradient(135deg, #0A6AA6 0%, #0A64A0 50%, #09588C 100%);
-      box-shadow: 0 40px 90px -40px rgba(10, 106, 166, 0.45); border-radius: 32px;
+      background-color: #0277BD;
+      background-image: radial-gradient(45% 45% at 0% 100%, rgba(51, 190, 242, 0.85), rgba(51, 190, 242, 0) 72%), radial-gradient(45% 45% at 100% 100%, rgba(14, 165, 233, 0.75), rgba(14, 165, 233, 0) 72%), linear-gradient(135deg, #0277BD 0%, #0274B9 55%, #036CAE 100%);
+      box-shadow: 0 40px 90px -40px rgba(2, 132, 199, 0.42); border-radius: 32px;
     }
     @media (min-width: 640px) { #about .surface-ice:has([data-i18n="chain_title"]) { padding: 40px; } }
     #about [data-i18n="chain_title"] { color: #FFFFFF; font-size: clamp(1.35rem, 1.2vw + 0.9rem, 1.9rem); letter-spacing: -0.03em; line-height: 1.15; }
-    #about [data-i18n="chain_badge"] { white-space: nowrap; background: rgba(255, 255, 255, 0.06); color: #FFFFFF; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4) !important; }
+    #about [data-i18n="chain_badge"] { white-space: nowrap; background: rgba(1, 55, 98, 0.32); color: #FFFFFF; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4) !important; }
     #about .surface-ice:has([data-i18n="chain_title"]) .rounded-\[24px\] { box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55) !important; }
     #donate .donate-tier-btn:not(.bg-sky-500) { background: #FFFFFF; }
     #donate .donate-tier-btn.bg-sky-500 { background: #0B3A5C !important; box-shadow: 0 0 0 2px #FFFFFF, 0 18px 40px -16px rgba(8, 47, 73, 0.6) !important; }
@@ -1781,7 +1782,7 @@
 
     .stage-light {
       position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
-      background: radial-gradient(380px circle at var(--sx, 50%) var(--sy, 50%), rgba(255, 255, 255, 0.08), transparent 65%);
+      background: radial-gradient(380px circle at var(--sx, 50%) var(--sy, 50%), rgba(51, 190, 242, 0.16), transparent 65%);
       opacity: 0; transition: opacity 600ms ease;
     }
     .stage-lit > .stage-light { opacity: 1; }
@@ -1802,8 +1803,8 @@
       #about .surface-ice:has([data-i18n="chain_title"])::after {
         content: ""; position: absolute; inset: -30%; z-index: -1; pointer-events: none;
         background:
-          radial-gradient(26% 30% at 30% 34%, rgba(186, 230, 253, 0.10), transparent 70%),
-          radial-gradient(34% 40% at 72% 70%, rgba(7, 64, 110, 0.36), transparent 70%);
+          radial-gradient(30% 34% at 30% 34%, rgba(1, 64, 118, 0.30), transparent 70%),
+          radial-gradient(28% 32% at 74% 68%, rgba(51, 190, 242, 0.0), rgba(1, 70, 125, 0.22) 40%, transparent 72%);
         animation: auraDrift 22s ease-in-out infinite alternate;
         will-change: transform;
       }
@@ -1822,6 +1823,102 @@
         #about .surface-ice .grid > .rounded-2xl { transition: translate 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms ease; }
         #about .surface-ice .grid > .rounded-2xl:hover { translate: 0 -3px; box-shadow: 0 14px 28px -16px rgba(8, 47, 73, 0.35); }
       }
+    }
+
+    /* Logo-blue stages: on phones the text runs full width, so the bright logo glows move to text-free corners */
+    body .surface-sky-solid .text-sky-100 { color: #FFFFFF; }
+    @media (max-width: 1023.98px) {
+      #hero.scroll-choreo {
+        background-image:
+          radial-gradient(70% 22% at 100% 0%, rgba(51, 190, 242, 0.75), rgba(51, 190, 242, 0) 70%),
+          radial-gradient(80% 30% at 50% 74%, rgba(14, 165, 233, 0.7), rgba(14, 165, 233, 0) 70%),
+          linear-gradient(135deg, #0277BD 0%, #0274B9 55%, #036CAE 100%);
+      }
+      #donate > .surface-ice {
+        background-image:
+          radial-gradient(90% 30% at 50% 100%, rgba(51, 190, 242, 0.8), rgba(51, 190, 242, 0) 72%),
+          radial-gradient(70% 25% at 100% 62%, rgba(14, 165, 233, 0.6), rgba(14, 165, 233, 0) 70%),
+          linear-gradient(135deg, #0277BD 0%, #0274B9 55%, #036CAE 100%);
+      }
+    }
+
+    /* Hover language: one easing, tinted logo-blue shadows, colour shifts and small lifts.
+       Colour/shadow answers always; movement only when the user has not asked for reduced motion. */
+    @media (hover: hover) {
+      .nav-spy-link {
+        background-image: linear-gradient(90deg, #33BEF2, #0284C7);
+        background-repeat: no-repeat; background-position: 50% calc(100% - 2px); background-size: 0 2px;
+        transition: color 220ms ease, background-size 480ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .nav-spy-link:hover { background-size: calc(100% - 22px) 2px; }
+
+      header a.group > div:first-child { transition: box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1), scale 450ms cubic-bezier(0.16, 1, 0.3, 1); }
+      header a.group:hover > div:first-child { box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(14, 165, 233, 0.4), 0 10px 22px -8px rgba(14, 165, 233, 0.6) !important; }
+
+      body button[data-seg-active], body .passport-item-btn, body .ba-preset-btn, body .res-filter-btn,
+      body .reg-filter-btn, body .gal-filter-btn, body .faq-filter-btn {
+        transition: color 260ms ease, background-color 260ms ease, box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1), translate 450ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      body button[data-seg-active]:hover, body .passport-item-btn:hover, body .ba-preset-btn:hover, body .res-filter-btn:hover,
+      body .reg-filter-btn:hover, body .gal-filter-btn:hover, body .faq-filter-btn:hover {
+        box-shadow: inset 0 0 0 1px rgba(14, 165, 233, 0.38), 0 8px 18px -10px rgba(2, 132, 199, 0.55);
+      }
+      body button.text-slate-900[data-seg-active="true"]:hover { color: #0369A1; }
+      body button.bg-sky-500:hover { background-color: #0369A1; box-shadow: 0 10px 22px -10px rgba(2, 132, 199, 0.75); }
+
+      body button.w-full.justify-between > span:first-child { transition: color 260ms ease; }
+      body button.w-full.justify-between:hover > span:first-child { color: #0369A1; }
+      body .faq-chevron { transition: background-color 260ms ease, color 260ms ease, translate 450ms cubic-bezier(0.16, 1, 0.3, 1); }
+      body button.w-full.justify-between:hover .faq-chevron { background-color: #0284C7; color: #FFFFFF; }
+
+      body label[for], body label.block { transition: color 220ms ease; }
+      body label[for]:hover, body label.block:hover { color: #0369A1; }
+      body input[type="text"], body input[type="number"], body input[type="email"], body input[type="tel"], body textarea, body select {
+        transition: border-color 260ms ease, box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms ease;
+      }
+      body input[type="text"]:hover, body input[type="number"]:hover, body input[type="email"]:hover, body input[type="tel"]:hover, body textarea:hover, body select:hover {
+        border-color: #7DD3FC; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
+      }
+      body input[type="checkbox"] { transition: box-shadow 300ms ease; border-radius: 4px; }
+      body input[type="checkbox"]:hover { box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.18); }
+      body input[type="range"].sky-slider { transition: filter 300ms ease; }
+      body input[type="range"].sky-slider:hover { filter: drop-shadow(0 4px 10px rgba(2, 132, 199, 0.35)); }
+
+      body div[class*="rounded-[2"], body form[class*="rounded-[2"], body #about .surface-ice, body #contest .surface-ice, body #support .surface-ice {
+        transition: box-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1), translate 600ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      body div.bg-white[class*="rounded-[2"]:hover, body form.bg-white[class*="rounded-[2"]:hover,
+      body #contest .surface-ice:hover, body #support .surface-ice:hover, body #about .surface-ice:not(:has([data-i18n="chain_title"])):hover {
+        box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.22), 0 24px 48px -26px rgba(2, 132, 199, 0.45);
+      }
+      body #about .surface-ice:has([data-i18n="chain_title"]):hover { box-shadow: 0 44px 96px -36px rgba(2, 132, 199, 0.62); }
+
+      body div.rounded-2xl[class*="p-3.5"], body li.rounded-2xl[class*="p-3.5"], body div.rounded-2xl.p-4 {
+        transition: box-shadow 450ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms ease, translate 450ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      body div.rounded-2xl[class*="p-3.5"]:hover, body li.rounded-2xl[class*="p-3.5"]:hover {
+        box-shadow: inset 0 0 0 1px rgba(14, 165, 233, 0.32), 0 10px 22px -14px rgba(2, 132, 199, 0.5);
+      }
+      body div.rounded-2xl.p-4[class*="from-sky-500"]:hover { box-shadow: 0 14px 30px -14px rgba(2, 132, 199, 0.7); }
+
+      #hero .bg-skybrand-50 { transition: box-shadow 450ms ease; }
+      #hero .bg-skybrand-50:hover { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55), 0 10px 24px -12px rgba(1, 40, 75, 0.5) !important; }
+      /* white cards that sit on the blue stages keep their dark lift shadow, and on hover gain a soft white rim */
+      #donate form#donationPledgeForm:hover, #donate > .surface-ice > .grid > div:last-child:hover,
+      #about .surface-ice:has([data-i18n="chain_title"]) .rounded-\[24px\]:hover {
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.75), 0 40px 72px -30px rgba(0, 0, 0, 0.6) !important;
+      }
+      body li.rounded-2xl[class*="p-3.5"][style*="box-shadow"]:hover {
+        box-shadow: inset 0 0 0 1px rgba(14, 165, 233, 0.4), 0 10px 22px -14px rgba(2, 132, 199, 0.5) !important;
+      }
+    }
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+      header a.group:hover > div:first-child { scale: 1.07; }
+      body button[data-seg-active]:hover, body .passport-item-btn:hover, body .ba-preset-btn:hover, body .res-filter-btn:hover,
+      body .reg-filter-btn:hover, body .gal-filter-btn:hover, body .faq-filter-btn:hover { translate: 0 -1px; }
+      body button.w-full.justify-between:hover .faq-chevron { translate: 0 2px; }
+      body div.bg-white[class*="rounded-[2"]:hover, body form.bg-white[class*="rounded-[2"]:hover { translate: 0 -3px; }
+      body div.rounded-2xl[class*="p-3.5"]:hover, body li.rounded-2xl[class*="p-3.5"]:hover, body div.rounded-2xl.p-4[class*="from-sky-500"]:hover { translate: 0 -2px; }
     }
 
     /* Keyboard focus: always visible, overrides Tailwind focus:outline-none */
