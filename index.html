@@ -8,7 +8,7 @@
   <meta name="author" content="Yorov Muhammadmurod" />
   <meta name="designer" content="Yorov Muhammadmurod" />
   <link rel="author" href="humans.txt" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Фурӯғи илму дониш","url":"https://yorov15.github.io/peshraft-site/","inLanguage":["ru","tg","en"],"publisher":{"@type":"Organization","name":"ОБО «Пешрафт»","url":"https://www.peshraft.charity"},"creator":{"@type":"Person","name":"Yorov Muhammadmurod","url":"https://github.com/yorov15"},"copyrightHolder":{"@type":"Person","name":"Yorov Muhammadmurod"},"copyrightYear":2026}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Фурӯғи илму дониш","inLanguage":["ru","tg","en"],"publisher":{"@type":"Organization","name":"ОБО «Пешрафт»","url":"https://www.peshraft.charity"},"creator":{"@type":"Person","name":"Yorov Muhammadmurod"},"copyrightHolder":{"@type":"Person","name":"Yorov Muhammadmurod"},"copyrightYear":2026}</script>
   <title>Фурӯғи илму дониш — Программа поддержки учителей</title>
   <script src="https://unpkg.com/lucide@0.395.0/dist/umd/lucide.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -3951,9 +3951,14 @@
       };
     }
 
-    // Resolves to 'sent' (delivered), 'mail' (mail app opened) or 'error'.
+    /* Resolves to:
+       'sent'   - a readable endpoint (PESHRAFT_FORM_ENDPOINT) confirmed it with 2xx;
+       'queued' - it left for the Peshraft CRM, whose answer the browser cannot read,
+                  so the visitor also gets the phone number in case nobody calls;
+       'mail'   - nothing could be sent, the mail app opened with the letter;
+       'error'  - nothing could be sent and no mail fallback was wanted. */
     async function submitLead(formId, subject, fields, { mailFallback = true } = {}) {
-      let delivered = false;
+      let crmSent = false;
       const crm = window.PESHRAFT_CRM_ENDPOINT;
       if (crm) {
         try {
@@ -3964,7 +3969,7 @@
             headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
             body: JSON.stringify(buildCrmRecord(formId, subject, fields))
           });
-          delivered = true;
+          crmSent = true;
         } catch (err) {
           console.warn('Peshraft CRM unreachable', err);
         }
@@ -3983,13 +3988,13 @@
               'Страница': location.href
             })
           });
-          if (res.ok) delivered = true;
-          else console.warn('Lead endpoint answered', res.status);
+          if (res.ok) return 'sent';
+          console.warn('Lead endpoint answered', res.status);
         } catch (err) {
           console.warn('Lead endpoint unreachable', err);
         }
       }
-      if (delivered) return 'sent';
+      if (crmSent) return 'queued';
       if (!mailFallback) return 'error';
       window.openMailto(buildMailto(subject, fields));
       return 'mail';
@@ -4005,6 +4010,10 @@
     function leadToast(status, sentMessage, detail) {
       if (status === 'sent') {
         showToast(sentMessage, detail);
+      } else if (status === 'queued') {
+        showToast(sentMessage,
+          T('Если вам не позвонят за 2 рабочих дня, позвоните: ', 'Агар дар 2 рӯзи корӣ ба шумо занг назананд, занг занед: ', 'If nobody calls you within 2 working days, call: ') + LEAD_PHONE,
+          'info');
       } else if (status === 'mail') {
         showToast(
           T('Открылось письмо — нажмите «Отправить» в почте', 'Мактуб дар почтаи шумо кушода шуд — «Фиристодан»-ро пахш кунед', 'Your mail app opened the message: press “Send”'),
@@ -7111,8 +7120,8 @@
         'Описание': document.getElementById('repDesc').value.trim()
       };
       const status = await withBusyForm(form, () => submitLead('repair_request', 'Заявка на ремонт кабинета: ' + school, fields));
-      if (status === 'sent') {
-        // A ticket is listed only once the request has really been delivered.
+      if (status === 'sent' || status === 'queued') {
+        // A ticket is listed only once the request has left the page.
         userSubmittedRepairTickets.unshift({ school, item: cat });
         renderRepairTickets();
         form.reset();
@@ -7263,14 +7272,6 @@
       document.getElementById('certPurposeDisplay').textContent = purpose;
       sponsorCertModal.classList.remove('hidden');
       syncOverlayBodyState();
-      // Tell the team about the pledge; the transfer itself happens at the bank.
-      if (window.PESHRAFT_CRM_ENDPOINT || window.PESHRAFT_FORM_ENDPOINT) {
-        submitLead('donation_pledge', 'Намерение пожертвовать: ' + formatSomoni(amt), {
-          'Имя или организация': document.getElementById('donateDonorName').value.trim() || '—',
-          'Сумма': formatSomoni(amt),
-          'Назначение': purpose
-        }, { mailFallback: false });
-      }
     });
 
     document.getElementById('closeSponsorCertBtn').addEventListener('click', () => {
@@ -7405,7 +7406,7 @@
         'Телефон': val('modTeacherPhone')
       };
       const status = await withBusyForm(form, () => submitLead('teacher_application', 'Анкета на конкурс «Фурӯғи илму дониш»: ' + name, fields));
-      if (status === 'sent') form.reset();
+      if (status === 'sent' || status === 'queued') form.reset();
       closeAllGlassDrawers();
       leadToast(status, T('Анкета отправлена организаторам', 'Пурсишнома ба ташкилкунандагон фиристода шуд', 'Application sent to the organisers'), name);
     });
@@ -7421,7 +7422,7 @@
         'Сообщение': document.getElementById('cntMessage').value.trim()
       };
       const status = await withBusyForm(form, () => submitLead('contact', 'Обращение с сайта: ' + sender, fields));
-      if (status === 'sent') form.reset();
+      if (status === 'sent' || status === 'queued') form.reset();
       closeAllGlassDrawers();
       leadToast(status, T('Обращение отправлено', 'Муроҷиат фиристода шуд', 'Message sent'), sender);
     });
