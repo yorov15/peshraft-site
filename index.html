@@ -1424,7 +1424,8 @@
       box-shadow: 0 2px 10px rgba(15, 23, 42, 0.12);
     }
 
-    /* FAQ Accordion */
+    /* FAQ Accordion: each card keeps its own height, so opening one never stretches its row neighbour */
+    #faqAccordionList { align-items: start; }
     .faq-item {
       transition: box-shadow 260ms var(--ease-spring), background-color 240ms ease;
     }
