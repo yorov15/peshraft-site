@@ -1,0 +1,9 @@
+/* TEAM */
+Design & development: Yorov Muhammadmurod
+GitHub: https://github.com/yorov15
+Location: Tajikistan
+
+/* SITE */
+Project: «Фурӯғи илму дониш» (ОБО «Пешрафт»)
+Built: 2026
+Made with: HTML, CSS (Tailwind, compiled ahead of time), JavaScript, Lenis
